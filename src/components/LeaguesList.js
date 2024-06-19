@@ -54,7 +54,6 @@ const LeaguesList = () => {
     league.name.toLowerCase().includes(search)
   ); //фильтрация лиг
 
-  // вычисление индексов для пагинации отфильтрованного списка
   const indexOfLastItem = currentPage * pageSize; 
   const indexOfFirstItem = indexOfLastItem - pageSize;
   const currentLeaguesOnPage  = filteredLeagues.slice(indexOfFirstItem, indexOfLastItem);
@@ -70,7 +69,7 @@ const LeaguesList = () => {
       <Header className='headerStyle'>Header</Header>
       <Content className='contentStyle'>
       
-      {loading ? <Preloader /> : (
+      {loading ? ( <Preloader /> ) : (
         <>
         <h1>Europe Competitions</h1>
           <Search 
@@ -85,7 +84,7 @@ const LeaguesList = () => {
     />
     
         <div className='ligues-list'>
-          {currentLeaguesOnPage .map(league => (
+          {currentLeaguesOnPage.map(league => (
             <Link className='league-card' key={league.id} to={`/league/${league.id}`}>
                 <Card  bordered={true} >
                   <p><img src={league.emblem} alt={`${league.name} logo`}/> </p>

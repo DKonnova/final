@@ -1,10 +1,10 @@
 import React from 'react';
-import style from './PreLoader.css';
+import './PreLoader.css';
 
 function Preloader() {
   return (
-    <div className={style.container}>
-      <div className={style.loader}></div>
+    <div className='container'>
+      <div className='loader'></div>
     </div>
   );
 }
