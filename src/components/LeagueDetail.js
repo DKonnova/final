@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
-import Pagination from './Pagination';
+import Pagination from './Paginator';
 import Preloader from './PreLoader';
 import { REACT_APP_FOOTBALL_API_KEY } from '../settings';
 import getDateString from './utils';

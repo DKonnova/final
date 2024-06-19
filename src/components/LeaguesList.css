@@ -5,10 +5,10 @@
     margin-top:32px; /*Отступ от поиска*/
     margin-bottom: 32px; /*Отступ от футера*/
     padding: 20px; /* Внутренние отступы*/
-    border: 2px solid #3498db; /* Голубая граница */
-    border-radius: 20px; /* Закругление углов для создания округлой формы */
+    border: 2px solid #e0e0e0; /* Голубая граница */
+    border-radius: 8px; /* Закругление углов для создания округлой формы */
     outline: none; /* Убираем стандартный outline, который появляется при фокусе */
-    background-color: white; /* Белый фон */
+    background-color: white; /* цвет фона */
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Автоматическое заполнение с минимальной ширины карточки 250px */
     grid-gap: 20px; /* Отступ между карточками */
@@ -21,13 +21,34 @@
     overflow: hidden; /* Прячем содержимое, выходящее за границы карточки */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Тень вокруг карточки для чёткости */
     transition: transform 0.2s; /* Плавное изменение при взаимодействии */
-    margin: 10px;
-    padding: 10px;
-    text-align: center;
-    
-}
+    margin: 10px; /*внешний отступ*/
+    padding: 10px; /*внутренний отступ*/
+    text-align: center /*контент посередине*/
+} 
+
 
 .league-card img {
-    max-width: 100%;
-    height: auto;
+    max-width: 100%; /*отображение картинки в полную ширину*/
+    height: auto; /*автоподсчёт высоты картинки*/
+  }
+
+  .headerStyle{
+    text-align: center; /*контент посередине*/
+  color: #fff; /*цвет шрифта*/
+  height: 64px; /*высота хэдера*/
+  padding-inline: 48px; /*боковые отступы*/
+  background-color: #4096ff;  /* цвет фона */
+  }
+
+  .contentStyle {
+    text-align: center; /*контент посередине*/
+  min-height: 32px; /*минимальная высота блока, если он пустой*/
+  line-height: 32px; /*высота строки контента*/
+  color: #000; /*цвет шрифта*/
+ }
+
+  .footerStyle {
+    text-align: center; /*контент посередине*/
+  color: #fff; /*цвет шрифта*/
+  background-color: #4096ff; /* цвет фона */
   }
