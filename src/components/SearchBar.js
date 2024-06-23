@@ -1,14 +1,9 @@
-import React from 'react';
-import './SearchBar.css';
+import React from "react";
+import "./SearchBar.css";
 
-const SearchBar = ({value}) => {
+const SearchBar = ({ value }) => {
   return (
-    <input
-      id="search-input"
-      type="search"
-      placeholder="Поиск"
-      value={value}
-      />
+    <input id="search-input" type="search" placeholder="Поиск" value={value} />
   );
 };
 
