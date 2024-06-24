@@ -6,8 +6,8 @@ import { REACT_APP_FOOTBALL_API_KEY } from "../settings";
 import { Table, Tag, Flex, Layout, Breadcrumb, DatePicker } from "antd";
 import "./LeaguesList.css";
 
-const LeagueDetailPage = () => {
-  const { leagueId } = useParams();
+const TeamDetailPage = () => {
+  const { teamId } = useParams();
   const [matches, setMatches] = useState([]);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
@@ -23,14 +23,21 @@ const LeagueDetailPage = () => {
     if (startDate) params.dateFrom = startDate;
     if (endDate) params.dateTo = endDate;
     try {
-      const response = await axios.get(
-        `http://localhost:8080/v4/competitions/${leagueId}/matches/`,
+      //запрос для получения названия команды
+      const teamInfoResponse = await axios.get(
+        `http://localhost:8080/v4/teams/${teamId}`,
+        { headers: { "X-Auth-Token": REACT_APP_FOOTBALL_API_KEY } }
+      );
+
+      //запрос для получения матчей команды
+      const matchesResponse = await axios.get(
+        `http://localhost:8080//v4/teams/${teamId}/matches/`,
         {
           headers: { "X-Auth-Token": REACT_APP_FOOTBALL_API_KEY },
           params: params,
         }
       );
-      console.log("ответ API:", response.data);
+      console.log("ответ API:", matchesResponse.data);
 
       //форматирование даты
       const formatDate = (dateString) => {
@@ -45,7 +52,7 @@ const LeagueDetailPage = () => {
         return `${hours}:${minutes}`;
       };
 
-      const matchData = response.data.matches.map((match) => ({
+      const matchData = matchesResponse.data.matches.map((match) => ({
         key: match.id,
         date: match.utcDate ? formatDate(match.utcDate) : null,
         time: match.utcDate ? formatTime(match.utcDate) : null,
@@ -70,7 +77,12 @@ const LeagueDetailPage = () => {
         awayTeamId: match.awayTeam.id,
       }));
       console.log("Данные массива для таблицы:", matchData);
-      setTitle(response.data.competition.name);
+      if (
+        matchesResponse.data.matches &&
+        matchesResponse.data.matches.length > 0
+      ) {
+        setTitle(teamInfoResponse.data.name);
+      }
       setMatches(matchData);
     } catch (err) {
       console.error("Error fetching matches", err);
@@ -79,10 +91,10 @@ const LeagueDetailPage = () => {
     }
   };
   useEffect(() => {
-    if (leagueId) {
+    if (teamId) {
       fetchMatches();
     }
-  }, [leagueId, startDate, endDate]);
+  }, [teamId, startDate, endDate]);
 
   const columns = [
     {
@@ -131,13 +143,17 @@ const LeagueDetailPage = () => {
       title: "HomeTeam",
       dataIndex: "homeTeam",
       key: "homeTeam",
-      render: (text, record) => <Link to={`/team/${record.homeTeamId}`}>{text}</Link>,
+      render: (text, record) => (
+        <Link to={`/team/${record.homeTeamId}`}>{text}</Link>
+      ),
     },
     {
       title: "AwayTeam",
       dataIndex: "awayTeam",
       key: "awayTeam",
-      render: (text, record) => <Link to={`/team/${record.awayTeamId}`}>{text}</Link>,
+      render: (text, record) => (
+        <Link to={`/team/${record.awayTeamId}`}>{text}</Link>
+      ),
     },
     {
       title: "Score",
@@ -169,15 +185,13 @@ const LeagueDetailPage = () => {
             <Preloader />
           ) : (
             <>
-            <Breadcrumb className="breadStyle">
-  <Breadcrumb.Item>
-    <Link to="/">Competitions</Link>
-  </Breadcrumb.Item>
-  <Breadcrumb.Item>
-  League {title}
-  </Breadcrumb.Item>
-  </Breadcrumb>
-              <h1>League {title} Matches</h1>
+              <Breadcrumb className="breadStyle">
+                <Breadcrumb.Item>
+                  <Link to="/teams">Teams</Link>
+                </Breadcrumb.Item>
+                <Breadcrumb.Item>Team {title}</Breadcrumb.Item>
+              </Breadcrumb>
+              <h1>Calendar {title}</h1>
               <RangePicker onChange={handleFilterDates} />
               <Table
                 className="tableStyle"
@@ -192,4 +206,4 @@ const LeagueDetailPage = () => {
     </Flex>
   );
 };
-export default LeagueDetailPage;
+export default TeamDetailPage;

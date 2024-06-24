@@ -43,6 +43,7 @@
 }
 
 .contentStyle {
+ 
   text-align: center; /*контент посередине*/
   min-height: 32px; /*минимальная высота блока, если он пустой*/
   line-height: 32px; /*высота строки контента*/
@@ -62,4 +63,9 @@
   margin-top: 16px; /*Отступ от поиска*/
   margin-bottom: 32px; /*Отступ от футера*/
   border-radius: 8px; /* Закругление углов для создания округлой формы */
+}
+
+.breadStyle {
+  margin-left: 15%;
+  margin-top: 16px; /*Отступ от хэдера*/
 }
