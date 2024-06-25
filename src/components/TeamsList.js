@@ -5,8 +5,9 @@ import Preloader from "./PreLoader";
 import Paginator from "./Paginator";
 import { REACT_APP_FOOTBALL_API_KEY } from "../settings";
 import { Flex, Layout, Card, Input } from "antd";
+import MyHeader from "./Header";
 import "./LeaguesList.css";
-import "./SearchBar.css";
+
 
 const TeamsList = () => {
   const [teams, setTeams] = useState([]);
@@ -14,7 +15,7 @@ const TeamsList = () => {
   const [search, setSearch] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const { Meta } = Card;
-  const { Header, Footer, Content } = Layout;
+  const { Footer, Content } = Layout;
   const { Search } = Input;
   const pageSize = 10; // сколько лиг на странице
   const [currentPage, setCurrentPage] = useState(1);
@@ -69,7 +70,7 @@ const TeamsList = () => {
   return (
     <Flex gap="middle" wrap>
       <Layout>
-        <Header className="headerStyle">Header</Header>
+      <MyHeader />
         <Content className="contentStyle">
           {loading ? (
             <Preloader />

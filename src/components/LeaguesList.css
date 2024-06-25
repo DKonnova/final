@@ -1,7 +1,4 @@
 .ligues-list {
-  width: 70%;
-  margin-left: 15%; /*Параметры для отображения по центру ширины*/
-  margin-right: 15%;
   margin-top: 32px; /*Отступ от поиска*/
   margin-bottom: 32px; /*Отступ от пагинатора*/
   padding: 20px; /* Внутренние отступы*/
@@ -12,7 +9,7 @@
   display: grid;
   grid-template-columns: repeat(
     auto-fill,
-    minmax(250px, 1fr)
+    minmax(200px, 1fr)
   ); /* Автоматическое заполнение с минимальной ширины карточки 250px */
   grid-gap: 20px; /* Отступ между карточками */
 }
@@ -27,7 +24,7 @@
   margin: 10px; /*внешний отступ*/
   padding: 10px; /*внутренний отступ*/
   text-align: center; /*контент посередине*/
-}
+  }
 
 .league-card img {
   max-width: 100%; /*отображение картинки в полную ширину*/
@@ -35,16 +32,19 @@
 }
 
 .headerStyle {
+  display: flex; 
+  align-items: center;
   text-align: center; /*контент посередине*/
   color: #fff; /*цвет шрифта*/
   height: 64px; /*высота хэдера*/
   padding-inline: 48px; /*боковые отступы*/
-  background-color: #4096ff; /* цвет фона */
+  background-color: #fff; /* цвет фона */
 }
 
 .contentStyle {
- 
-  text-align: center; /*контент посередине*/
+  margin-left: 15%; /*Параметры для отображения по центру ширины*/
+  margin-right: 15%;
+ text-align: center; /*контент посередине*/
   min-height: 32px; /*минимальная высота блока, если он пустой*/
   line-height: 32px; /*высота строки контента*/
   color: #000; /*цвет шрифта*/
@@ -52,20 +52,23 @@
 
 .footerStyle {
   text-align: center; /*контент посередине*/
-  color: #fff; /*цвет шрифта*/
-  background-color: #4096ff; /* цвет фона */
+  color: #000; /*цвет шрифта*/
+  background-color: #fff; /* цвет фона */
 }
 
 .tableStyle {
-  width: 70%;
-  margin-left: 15%; /*Параметры для отображения по центру ширины*/
-  margin-right: 15%;
   margin-top: 16px; /*Отступ от поиска*/
   margin-bottom: 32px; /*Отступ от футера*/
   border-radius: 8px; /* Закругление углов для создания округлой формы */
 }
 
 .breadStyle {
-  margin-left: 15%;
   margin-top: 16px; /*Отступ от хэдера*/
+}
+
+.logo {
+  margin-left: 15%;
+  height: 52px;
+  max-width: auto;
+  margin-right: 12px;
 }

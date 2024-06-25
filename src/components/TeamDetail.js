@@ -4,24 +4,34 @@ import axios from "axios";
 import Preloader from "./PreLoader";
 import { REACT_APP_FOOTBALL_API_KEY } from "../settings";
 import { Table, Tag, Flex, Layout, Breadcrumb, DatePicker } from "antd";
+import MyHeader from "./Header";
 import "./LeaguesList.css";
 
 const TeamDetailPage = () => {
   const { teamId } = useParams();
   const [matches, setMatches] = useState([]);
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+  const [dates, setDates] = useState([null, null]);
+  const startDate = useState(null);
+  const endDate = useState(null);
   const [loading, setLoading] = useState(true);
-  const { Header, Footer, Content } = Layout;
+  const { Footer, Content } = Layout;
   const [title, setTitle] = useState(" ");
   const { RangePicker } = DatePicker;
 
-  const fetchMatches = async () => {
+  //обработка выбора дат в фильтре
+  const handleFilterDates = (range) => {
+    setDates(range);
+  };
+
+   const fetchMatches = async () => {
     setLoading(true);
     console.log("выбранные даты:", startDate, endDate);
+    //подстановка дат из фильтра в параметры запроса только в случае выбора дат пользователем
     const params = {};
-    if (startDate) params.dateFrom = startDate;
-    if (endDate) params.dateTo = endDate;
+   if (dates[0] && dates[1]) {
+    params.dateFrom = dates[0].format('YYYY-MM-DD');
+    params.dateTo = dates[1].format('YYYY-MM-DD');
+  }
     try {
       //запрос для получения названия команды
       const teamInfoResponse = await axios.get(
@@ -94,7 +104,13 @@ const TeamDetailPage = () => {
     if (teamId) {
       fetchMatches();
     }
-  }, [teamId, startDate, endDate]);
+  }, [teamId]);
+
+  useEffect(() => {
+    if (dates[0] && dates[1]) {
+      fetchMatches();
+    }
+  }, [dates]);
 
   const columns = [
     {
@@ -171,15 +187,10 @@ const TeamDetailPage = () => {
     },
   ];
 
-  const handleFilterDates = (values, dateStrings) => {
-    setStartDate(dateStrings[0]);
-    setEndDate(dateStrings[1]);
-  };
-
   return (
     <Flex gap="middle" wrap>
       <Layout>
-        <Header className="headerStyle">Header</Header>
+        <MyHeader />
         <Content className="contentStyle">
           {loading ? (
             <Preloader />
@@ -192,7 +203,9 @@ const TeamDetailPage = () => {
                 <Breadcrumb.Item>Team {title}</Breadcrumb.Item>
               </Breadcrumb>
               <h1>Calendar {title}</h1>
-              <RangePicker onChange={handleFilterDates} />
+              <RangePicker 
+              value={dates}
+              onChange={handleFilterDates} />
               <Table
                 className="tableStyle"
                 columns={columns}
