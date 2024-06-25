@@ -4,6 +4,7 @@ import axios from "axios";
 import Preloader from "./PreLoader";
 import { REACT_APP_FOOTBALL_API_KEY } from "../settings";
 import { Table, Tag, Flex, Layout, Breadcrumb, DatePicker } from "antd";
+import MyHeader from "./Header";
 import "./LeaguesList.css";
 
 const LeagueDetailPage = () => {
@@ -12,7 +13,7 @@ const LeagueDetailPage = () => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [loading, setLoading] = useState(true);
-  const { Header, Footer, Content } = Layout;
+  const { Footer, Content } = Layout;
   const [title, setTitle] = useState(" ");
   const { RangePicker } = DatePicker;
 
@@ -163,7 +164,7 @@ const LeagueDetailPage = () => {
   return (
     <Flex gap="middle" wrap>
       <Layout>
-        <Header className="headerStyle">Header</Header>
+      <MyHeader />
         <Content className="contentStyle">
           {loading ? (
             <Preloader />
