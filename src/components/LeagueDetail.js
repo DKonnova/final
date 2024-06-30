@@ -48,7 +48,7 @@ const LeagueDetailPage = () => {
       const formatDate = (dateString) => {
         const [date] = dateString.split("T"); //Используем только первую часть до 'T'
         const options = { day: "2-digit", month: "2-digit", year: "numeric" };
-        return new Date(date).toLocaleDateString("en-US", options);
+        return new Date(date).toLocaleDateString("ru-RU", options);
       };
       //форматирование времени
       const formatTime = (timeString) => {
