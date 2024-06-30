@@ -78,12 +78,12 @@ const LeaguesList = () => {
             <Preloader />
           ) : (
             <>
-              <h1>Europe Competitions</h1>
+              <h1>Европейские футбольные лиги</h1>
               <Search
                 className="search-input"
-                placeholder="Search for leagues by name"
+                placeholder="Искать по названию лиги"
                 allowClear
-                enterButton="Search"
+                enterButton="Искать"
                 size="large"
                 onChange={onInputChange}
                 onSearch={onSearch}
@@ -101,7 +101,7 @@ const LeaguesList = () => {
                       <p>
                         <img src={league.emblem} alt={`${league.name} logo`} />{" "}
                       </p>
-                      <p>{league.area.name}</p>
+                      <p>Страна: {league.area.name}</p>
                       <Meta title={league.name} />
                     </Card>
                   </Link>
