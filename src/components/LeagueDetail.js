@@ -10,6 +10,7 @@ import "./LeaguesList.css";
 const LeagueDetailPage = () => {
   const { leagueId } = useParams();
   const [matches, setMatches] = useState([]);
+  const [dates, setDates] = useState([null, null]);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -17,12 +18,22 @@ const LeagueDetailPage = () => {
   const [title, setTitle] = useState(" ");
   const { RangePicker } = DatePicker;
 
+  const handleFilterDates = (range) => {
+    if(!range) {
+      setDates([null, null]);
+    } else {
+      setDates(range);
+    }
+  };
+
   const fetchMatches = async () => {
     setLoading(true);
     console.log("выбранные даты:", startDate, endDate);
     const params = {};
-    if (startDate) params.dateFrom = startDate;
-    if (endDate) params.dateTo = endDate;
+    if (dates[0] && dates[1]) {
+      params.dateFrom = dates[0].format('YYYY-MM-DD');
+      params.dateTo = dates[1].format('YYYY-MM-DD');
+    }
     try {
       const response = await axios.get(
         `http://localhost:8080/v4/competitions/${leagueId}/matches/`,
@@ -83,7 +94,11 @@ const LeagueDetailPage = () => {
     if (leagueId) {
       fetchMatches();
     }
-  }, [leagueId, startDate, endDate]);
+  }, [leagueId]);
+
+  useEffect(() => {
+    fetchMatches();
+   }, [dates]);
 
   const columns = [
     {
@@ -156,11 +171,6 @@ const LeagueDetailPage = () => {
     },
   ];
 
-  const handleFilterDates = (values, dateStrings) => {
-    setStartDate(dateStrings[0]);
-    setEndDate(dateStrings[1]);
-  };
-
   return (
     <Flex gap="middle" wrap>
       <Layout>
@@ -179,7 +189,9 @@ const LeagueDetailPage = () => {
   </Breadcrumb.Item>
   </Breadcrumb>
               <h1>League {title} Matches</h1>
-              <RangePicker onChange={handleFilterDates} />
+              <RangePicker 
+              value={dates}
+              onChange={handleFilterDates} />
               <Table
                 className="tableStyle"
                 columns={columns}
