@@ -76,12 +76,12 @@ const TeamsList = () => {
             <Preloader />
           ) : (
             <>
-              <h1>Europe Football Teams</h1>
+              <h1>Европейские футбольные команды</h1>
               <Search
                 className="search-input"
-                placeholder="Search for teams by name"
+                placeholder="Искать по названию команды"
                 allowClear
-                enterButton="Search"
+                enterButton="Искать"
                 size="large"
                 onChange={onInputChange}
                 onSearch={onSearch}
@@ -99,7 +99,7 @@ const TeamsList = () => {
                       <p>
                         <img src={team.crest} alt={`${team.name} logo`} />{" "}
                       </p>
-                      <p>Since {team.founded}</p>
+                      <p>Основана в {team.founded}</p>
                       <Meta title={team.name} />
                     </Card>
                   </Link>

@@ -10,11 +10,11 @@ const { Header } = Layout;
 const items = [
     {
     key: 1,
-    label:  <Link to={`/`}>Competitions</Link>,
+    label:  <Link to={`/`}>Лиги</Link>,
    },
 {
     key: 2,
-    label: <Link to={`/teams`}>Teams</Link>,
+    label: <Link to={`/teams`}>Команды</Link>,
     },
 ];
 

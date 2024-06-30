@@ -117,17 +117,17 @@ const TeamDetailPage = () => {
 
   const columns = [
     {
-      title: "Date",
+      title: "Дата",
       dataIndex: "date",
       key: "date",
     },
     {
-      title: "Time",
+      title: "Время",
       dataIndex: "time",
       key: "time",
     },
     {
-      title: "Status",
+      title: "Статус",
       dataIndex: "tags",
       key: "state",
       render: (_, { tags }) => (
@@ -159,7 +159,7 @@ const TeamDetailPage = () => {
       ),
     },
     {
-      title: "HomeTeam",
+      title: "Принимающая команда",
       dataIndex: "homeTeam",
       key: "homeTeam",
       render: (text, record) => (
@@ -167,7 +167,7 @@ const TeamDetailPage = () => {
       ),
     },
     {
-      title: "AwayTeam",
+      title: "Гостевая команда",
       dataIndex: "awayTeam",
       key: "awayTeam",
       render: (text, record) => (
@@ -175,14 +175,14 @@ const TeamDetailPage = () => {
       ),
     },
     {
-      title: "Score",
+      title: "Счёт",
       render: (record) => (
         <>
           {record.score.fullTime && (
-            <div>Full Time: {record.score.fullTime}</div>
+            <div>Полное время: {record.score.fullTime}</div>
           )}
           {record.score.halfTime && record.score.halfTime !== " " && (
-            <div>Half Time: {record.score.halfTime}</div>
+            <div>Первый тайм: {record.score.halfTime}</div>
           )}
         </>
       ),
@@ -201,12 +201,13 @@ const TeamDetailPage = () => {
             <>
               <Breadcrumb className="breadStyle">
                 <Breadcrumb.Item>
-                  <Link to="/teams">Teams</Link>
+                  <Link to="/teams">Все команды</Link>
                 </Breadcrumb.Item>
-                <Breadcrumb.Item>Team {title}</Breadcrumb.Item>
+                <Breadcrumb.Item>Команда {title}</Breadcrumb.Item>
               </Breadcrumb>
-              <h1>Calendar {title}</h1>
+              <h1>Матчи команды {title}</h1>
               <RangePicker 
+                placeholder={["Искать от", "Искать до"]}
                 value={dates}
                 onChange={handleFilterDates}
               />

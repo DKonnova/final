@@ -102,17 +102,17 @@ const LeagueDetailPage = () => {
 
   const columns = [
     {
-      title: "Date",
+      title: "Дата",
       dataIndex: "date",
       key: "date",
     },
     {
-      title: "Time",
+      title: "Время",
       dataIndex: "time",
       key: "time",
     },
     {
-      title: "Status",
+      title: "Статус",
       dataIndex: "tags",
       key: "state",
       render: (_, { tags }) => (
@@ -144,26 +144,26 @@ const LeagueDetailPage = () => {
       ),
     },
     {
-      title: "HomeTeam",
+      title: "Принимающая команда",
       dataIndex: "homeTeam",
       key: "homeTeam",
       render: (text, record) => <Link to={`/team/${record.homeTeamId}`}>{text}</Link>,
     },
     {
-      title: "AwayTeam",
+      title: "Гостевая команда",
       dataIndex: "awayTeam",
       key: "awayTeam",
       render: (text, record) => <Link to={`/team/${record.awayTeamId}`}>{text}</Link>,
     },
     {
-      title: "Score",
+      title: "Счёт",
       render: (record) => (
         <>
           {record.score.fullTime && (
-            <div>Full Time: {record.score.fullTime}</div>
+            <div>Полное время: {record.score.fullTime}</div>
           )}
           {record.score.halfTime && record.score.halfTime !== " " && (
-            <div>Half Time: {record.score.halfTime}</div>
+            <div>Первый тайм: {record.score.halfTime}</div>
           )}
         </>
       ),
@@ -182,14 +182,15 @@ const LeagueDetailPage = () => {
             <>
             <Breadcrumb className="breadStyle">
   <Breadcrumb.Item>
-    <Link to="/">Competitions</Link>
+    <Link to="/">Все лиги </Link>
   </Breadcrumb.Item>
   <Breadcrumb.Item>
-  League {title}
+  Лига {title}
   </Breadcrumb.Item>
   </Breadcrumb>
-              <h1>League {title} Matches</h1>
+              <h1>Матчи лиги {title}</h1>
               <RangePicker 
+              placeholder={["Искать от", "Искать до"]}
               value={dates}
               onChange={handleFilterDates} />
               <Table
