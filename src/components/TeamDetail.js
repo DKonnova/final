@@ -20,7 +20,11 @@ const TeamDetailPage = () => {
 
   //обработка выбора дат в фильтре
   const handleFilterDates = (range) => {
-    setDates(range);
+    if(!range) {
+      setDates([null, null]);
+    } else {
+      setDates(range);
+    }
   };
 
    const fetchMatches = async () => {
@@ -28,10 +32,10 @@ const TeamDetailPage = () => {
     console.log("выбранные даты:", startDate, endDate);
     //подстановка дат из фильтра в параметры запроса только в случае выбора дат пользователем
     const params = {};
-   if (dates[0] && dates[1]) {
-    params.dateFrom = dates[0].format('YYYY-MM-DD');
-    params.dateTo = dates[1].format('YYYY-MM-DD');
-  }
+    if (dates[0] && dates[1]) {
+      params.dateFrom = dates[0].format('YYYY-MM-DD');
+      params.dateTo = dates[1].format('YYYY-MM-DD');
+    }
     try {
       //запрос для получения названия команды
       const teamInfoResponse = await axios.get(
@@ -100,6 +104,7 @@ const TeamDetailPage = () => {
       setLoading(false); // выключаем индикатор загрузки в любом случае
     }
   };
+
   useEffect(() => {
     if (teamId) {
       fetchMatches();
@@ -107,9 +112,7 @@ const TeamDetailPage = () => {
   }, [teamId]);
 
   useEffect(() => {
-    if (dates[0] && dates[1]) {
-      fetchMatches();
-    }
+   fetchMatches();
   }, [dates]);
 
   const columns = [
@@ -204,8 +207,9 @@ const TeamDetailPage = () => {
               </Breadcrumb>
               <h1>Calendar {title}</h1>
               <RangePicker 
-              value={dates}
-              onChange={handleFilterDates} />
+                value={dates}
+                onChange={handleFilterDates}
+              />
               <Table
                 className="tableStyle"
                 columns={columns}
