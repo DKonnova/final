@@ -85,6 +85,7 @@ const TeamDetailPage = () => {
         time: match.utcDate ? formatTime(match.utcDate) : null,
         state: match.status,
         tags: [match.status],
+        translatedStatus: STATUS_TRANSLATOR[match.status],
         homeTeam: match.homeTeam.name,
         awayTeam: match.awayTeam.name,
         score: {
