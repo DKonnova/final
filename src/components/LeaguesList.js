@@ -72,7 +72,7 @@ const LeaguesList = () => {
   return (
     <Flex gap="middle" wrap>
       <Layout>
-      <MyHeader />
+        <MyHeader />
         <Content className="contentStyle">
           {loading ? (
             <Preloader />

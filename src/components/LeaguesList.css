@@ -24,7 +24,7 @@
   margin: 10px; /*внешний отступ*/
   padding: 10px; /*внутренний отступ*/
   text-align: center; /*контент посередине*/
-  }
+}
 
 .league-card img {
   max-width: 100%; /*отображение картинки в полную ширину*/
@@ -32,7 +32,7 @@
 }
 
 .headerStyle {
-  display: flex; 
+  display: flex;
   align-items: center;
   text-align: center; /*контент посередине*/
   color: #fff; /*цвет шрифта*/
@@ -44,7 +44,7 @@
 .contentStyle {
   margin-left: 15%; /*Параметры для отображения по центру ширины*/
   margin-right: 15%;
- text-align: center; /*контент посередине*/
+  text-align: center; /*контент посередине*/
   min-height: 32px; /*минимальная высота блока, если он пустой*/
   line-height: 32px; /*высота строки контента*/
   color: #000; /*цвет шрифта*/
