@@ -18,8 +18,21 @@ const LeagueDetailPage = () => {
   const [title, setTitle] = useState(" ");
   const { RangePicker } = DatePicker;
 
+  const STATUS_TRANSLATOR = {
+    SCHEDULED: "Запланирован",
+    TIMED: "Запланирован",
+    POSTPONED: "Перенесен",
+    CANCELED: "Отменен",
+    SUSPENDED: "Остановлен",
+    IN_PLAY: "Идёт игра",
+    LIVE: "Идёт трансляция",
+    PAUSED: "Перерыв",
+    AWARDED: "Идет награждение",
+    FINISHED: "Игра окончена",
+  };
+
   const handleFilterDates = (range) => {
-    if(!range) {
+    if (!range) {
       setDates([null, null]);
     } else {
       setDates(range);
@@ -31,8 +44,8 @@ const LeagueDetailPage = () => {
     console.log("выбранные даты:", startDate, endDate);
     const params = {};
     if (dates[0] && dates[1]) {
-      params.dateFrom = dates[0].format('YYYY-MM-DD');
-      params.dateTo = dates[1].format('YYYY-MM-DD');
+      params.dateFrom = dates[0].format("YYYY-MM-DD");
+      params.dateTo = dates[1].format("YYYY-MM-DD");
     }
     try {
       const response = await axios.get(
@@ -48,7 +61,7 @@ const LeagueDetailPage = () => {
       const formatDate = (dateString) => {
         const [date] = dateString.split("T"); //Используем только первую часть до 'T'
         const options = { day: "2-digit", month: "2-digit", year: "numeric" };
-        return new Date(date).toLocaleDateString("en-US", options);
+        return new Date(date).toLocaleDateString("ru-RU", options);
       };
       //форматирование времени
       const formatTime = (timeString) => {
@@ -63,12 +76,13 @@ const LeagueDetailPage = () => {
         time: match.utcDate ? formatTime(match.utcDate) : null,
         state: match.status,
         tags: [match.status],
+        translatedStatus: STATUS_TRANSLATOR[match.status],
         homeTeam: match.homeTeam.name,
         awayTeam: match.awayTeam.name,
         score: {
           fullTime:
-            match.score.fullTime.homeTeam !== null &&
-            match.score.fullTime.awayTeam !== null
+            match.score.fullTime.home !== null &&
+            match.score.fullTime.away !== null
               ? `${match.score.fullTime.home} - ${match.score.fullTime.away}`
               : "N/A",
           halfTime:
@@ -81,6 +95,7 @@ const LeagueDetailPage = () => {
         homeTeamId: match.homeTeam.id,
         awayTeamId: match.awayTeam.id,
       }));
+
       console.log("Данные массива для таблицы:", matchData);
       setTitle(response.data.competition.name);
       setMatches(matchData);
@@ -98,7 +113,7 @@ const LeagueDetailPage = () => {
 
   useEffect(() => {
     fetchMatches();
-   }, [dates]);
+  }, [dates]);
 
   const columns = [
     {
@@ -113,86 +128,82 @@ const LeagueDetailPage = () => {
     },
     {
       title: "Статус",
-      dataIndex: "tags",
+      dataIndex: "state",
       key: "state",
-      render: (_, { tags }) => (
-        <>
-          {tags.map((tag) => {
-            let color;
-            if (tag === "SCHEDULED" || tag === "CANCELLED") {
-              color = "gray";
-            } else if (tag === "LIVE" || tag === " IN_PLAY") {
-              color = "volcano";
-            } else if (
-              tag === "PAUSED" ||
-              tag === "POSTPONED" ||
-              tag === "SUSPENDED"
-            ) {
-              color = "geekblue";
-            } else if (tag === "FINISHED") {
-              color = "green";
-            } else {
-              color = "gray";
-            }
-            return (
-              <Tag color={color} key={tag}>
-                {tag.toUpperCase()}
-              </Tag>
-            );
-          })}
-        </>
-      ),
+      render: (_, record) => {
+        const state = record.translatedStatus;
+        let color;
+        if (state === "Запланирован" || state === "Отменен") {
+          color = "gray";
+        } else if (state === "Идёт трансляция" || state === "Идёт игра") {
+          color = "volcano";
+        } else if (
+          state === "Перерыв" ||
+          state === "Перенесен" ||
+          state === "Остановлен"
+        ) {
+          color = "geekblue";
+        } else if (state === "Игра окончена") {
+          color = "green";
+        } else {
+          color = "gray";
+        }
+        return (
+          <Tag color={color} key={record.key}>
+            {state.toUpperCase()}
+          </Tag>
+        );
+      },
     },
     {
       title: "Принимающая команда",
       dataIndex: "homeTeam",
       key: "homeTeam",
-      render: (text, record) => <Link to={`/team/${record.homeTeamId}`}>{text}</Link>,
+      render: (text, record) => (
+        <Link to={`/team/${record.homeTeamId}`}>{text}</Link>
+      ),
     },
     {
       title: "Гостевая команда",
       dataIndex: "awayTeam",
       key: "awayTeam",
-      render: (text, record) => <Link to={`/team/${record.awayTeamId}`}>{text}</Link>,
+      render: (text, record) => (
+        <Link to={`/team/${record.awayTeamId}`}>{text}</Link>
+      ),
     },
     {
       title: "Счёт",
+      key: "score",
       render: (record) => (
         <>
-          {record.score.fullTime && (
-            <div>Полное время: {record.score.fullTime}</div>
-          )}
-          {record.score.halfTime && record.score.halfTime !== " " && (
-            <div>Первый тайм: {record.score.halfTime}</div>
-          )}
+          <div>Полное время: {record.score.fullTime}</div>
+          <div>Первый тайм: {record.score.halfTime}</div>
         </>
       ),
-      key: "score",
     },
   ];
 
   return (
     <Flex gap="middle" wrap>
       <Layout>
-      <MyHeader />
+        <MyHeader />
         <Content className="contentStyle">
           {loading ? (
             <Preloader />
           ) : (
             <>
-            <Breadcrumb className="breadStyle">
-  <Breadcrumb.Item>
-    <Link to="/">Все лиги </Link>
-  </Breadcrumb.Item>
-  <Breadcrumb.Item>
-  Лига {title}
-  </Breadcrumb.Item>
-  </Breadcrumb>
+              <Breadcrumb className="breadStyle">
+                <Breadcrumb.Item>
+                  <Link to="/">Все лиги </Link>
+                </Breadcrumb.Item>
+                <Breadcrumb.Item>Лига {title}</Breadcrumb.Item>
+              </Breadcrumb>
               <h1>Матчи лиги {title}</h1>
-              <RangePicker 
-              placeholder={["Искать от", "Искать до"]}
-              value={dates}
-              onChange={handleFilterDates} />
+              <RangePicker
+                placeholder={["Искать от", "Искать до"]}
+                value={dates}
+                onChange={handleFilterDates}
+              />
               <Table
                 className="tableStyle"
                 columns={columns}

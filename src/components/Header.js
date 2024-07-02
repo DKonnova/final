@@ -19,21 +19,18 @@ const items = [
 ];
 
   return (
-    <Header 
-    className="headerStyle">
-        <div className="logo" >
-        <img src={logo} alt="logo site"  />
-        </div>
-        <Menu
-          mode="horizontal"
-          items={items}
-          theme="light"
-          style={{ flex: 1, minWidth: 0 }}
-        />
-    
+    <Header className="headerStyle">
+      <div className="logo">
+        <img src={logo} alt="logo site" />
+      </div>
+      <Menu
+        mode="horizontal"
+        items={items}
+        theme="light"
+        style={{ flex: 1, minWidth: 0 }}
+      />
     </Header>
-
-    );
+  );
 };
 
 export default MyHeader;
